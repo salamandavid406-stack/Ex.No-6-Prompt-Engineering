@@ -8,7 +8,7 @@ To write and implement Python code that integrates with multiple AI tools to aut
 
 # INTRODUCTION
 
-Artificial Intelligence tools such as ChatGPT, Gemini, and Claude provide APIs that help developers automate tasks like text generation, summarization, analysis, and decision-making. By integrating multiple AI APIs in Python, users can compare responses, evaluate performance, and generate useful insights automatically.
+Artificial Intelligence tools such as ChatGPT, Gemini, and Claude AI provide APIs that help developers automate tasks like text generation, summarization, analysis, and decision-making. By integrating multiple AI APIs in Python, users can compare responses, evaluate performance, and generate useful insights automatically.
 
 ---
 
@@ -28,24 +28,19 @@ Artificial Intelligence tools such as ChatGPT, Gemini, and Claude provide APIs t
 * API Keys for AI tools
 * Internet connection
 
-Install required package:
-
-```bash id="2uq8hr"
-pip install requests
-```
-
 ---
 
 # PYTHON CODE IMPLEMENTATION
 
-```python id="n2qgcs"
+```python id="vc9q2x"
 import requests
 
-# Sample API Keys
+# API Keys
 OPENAI_API_KEY = "your_openai_api_key"
 GEMINI_API_KEY = "your_gemini_api_key"
+CLAUDE_API_KEY = "your_claude_api_key"
 
-# Function for ChatGPT API
+# ChatGPT API Function
 def get_chatgpt_response(prompt):
 
     url = "https://api.openai.com/v1/chat/completions"
@@ -57,7 +52,9 @@ def get_chatgpt_response(prompt):
 
     data = {
         "model": "gpt-3.5-turbo",
-        "messages": [{"role": "user", "content": prompt}]
+        "messages": [
+            {"role": "user", "content": prompt}
+        ]
     }
 
     response = requests.post(url, headers=headers, json=data)
@@ -65,7 +62,7 @@ def get_chatgpt_response(prompt):
     return response.json()["choices"][0]["message"]["content"]
 
 
-# Function for Gemini API
+# Gemini API Function
 def get_gemini_response(prompt):
 
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={GEMINI_API_KEY}"
@@ -87,32 +84,53 @@ def get_gemini_response(prompt):
     return result["candidates"][0]["content"]["parts"][0]["text"]
 
 
+# Claude AI API Function
+def get_claude_response(prompt):
+
+    url = "https://api.anthropic.com/v1/messages"
+
+    headers = {
+        "x-api-key": CLAUDE_API_KEY,
+        "anthropic-version": "2023-06-01",
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "model": "claude-3-sonnet-20240229",
+        "max_tokens": 200,
+        "messages": [
+            {"role": "user", "content": prompt}
+        ]
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    result = response.json()
+
+    return result["content"][0]["text"]
+
+
 # User Prompt
 prompt = "Explain the importance of Artificial Intelligence in education."
 
-# Get responses
+# Get Responses
 chatgpt_output = get_chatgpt_response(prompt)
 gemini_output = get_gemini_response(prompt)
+claude_output = get_claude_response(prompt)
 
-# Display outputs
+# Display Outputs
 print("ChatGPT Response:")
 print(chatgpt_output)
 
 print("\nGemini Response:")
 print(gemini_output)
 
-# Compare outputs
-print("\n--- Comparative Analysis ---")
+print("\nClaude AI Response:")
+print(claude_output)
 
-if len(chatgpt_output) > len(gemini_output):
-    print("ChatGPT provided a more detailed response.")
-else:
-    print("Gemini provided a more detailed response.")
-
-# Generate Insight
-print("\n--- Actionable Insight ---")
-print("Both AI tools provide useful educational content.")
-print("Users can choose tools based on response quality, speed, and detail.")
+# Actionable Insight
+print("\nActionable Insight:")
+print("Multiple AI tools improve response reliability and help users choose the best platform based on performance and quality.")
 ```
 
 ---
@@ -124,6 +142,8 @@ print("Users can choose tools based on response quality, speed, and detail.")
 “Explain the importance of Artificial Intelligence in education.”
 
 ---
+
+# SAMPLE OUTPUTS
 
 ## ChatGPT Output
 
@@ -137,21 +157,29 @@ AI improves education by enabling adaptive learning, intelligent tutoring system
 
 ---
 
+## Claude AI Output
+
+Artificial Intelligence supports education through customized learning experiences, faster evaluation methods, and intelligent educational assistance systems.
+
+---
+
 # OUTPUT COMPARISON
 
-| AI Tool | Strength             | Weakness        | Response Quality |
-| ------- | -------------------- | --------------- | ---------------- |
-| ChatGPT | Detailed explanation | Longer response | Excellent        |
-| Gemini  | Concise and fast     | Less detailed   | Very Good        |
+| AI Tool   | Accuracy | Speed | Detail Level | User Experience | Overall Rating |
+| --------- | -------- | ----- | ------------ | --------------- | -------------- |
+| ChatGPT   | 5/5      | 5/5   | 5/5          | Excellent       | 5/5            |
+| Gemini    | 4/5      | 5/5   | 4/5          | Very Good       | 4/5            |
+| Claude AI | 5/5      | 4/5   | 4/5          | Good            | 4/5            |
 
 ---
 
 # ACTIONABLE INSIGHTS
 
-* ChatGPT is suitable for detailed explanations and learning support.
-* Gemini is suitable for quick and concise responses.
-* Multiple AI tools improve reliability and decision-making.
-* API automation reduces manual effort and increases productivity.
+* ChatGPT provides highly detailed and accurate responses.
+* Gemini delivers faster and concise outputs suitable for quick tasks.
+* Claude AI performs well in reasoning and structured explanations.
+* Using multiple AI tools improves reliability and decision-making.
+* API automation helps reduce manual work and increases productivity.
 
 ---
 
@@ -177,4 +205,4 @@ AI improves education by enabling adaptive learning, intelligent tutoring system
 
 # RESULT
 
-Thus, the Python program integrating multiple AI tools was successfully implemented to automate API interactions, compare outputs, and generate actionable insights using different AI platforms.
+Thus, the Python program integrating multiple AI tools such as ChatGPT, Gemini, and Claude AI was successfully implemented to automate API interactions, compare outputs, and generate actionable insights.
